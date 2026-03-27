@@ -17,6 +17,7 @@ from database import initDb, upsertDevice, addMetrics
 from alert_manager import pushAlert, topAlerts
 from webapp import app
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -77,7 +78,8 @@ def pollLoop():
         time.sleep(sleepFor)
 
 def runWebServer():
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port, debug=False)
 
 def main():
     initDb()
