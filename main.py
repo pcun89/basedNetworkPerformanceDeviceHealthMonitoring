@@ -13,7 +13,7 @@ import threading
 from typing import Dict, Tuple
 from snmp_client import get_interfaces_bytes
 from metrics import computeBandwidth
-from database import initDb, upsertDevice, addMetrics
+from database import initDb
 from alert_manager import pushAlert, topAlerts
 from webapp import app
 import logging
@@ -81,13 +81,15 @@ def runWebServer():
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
 
+
 def main():
     initDb()
-    # start polling thread
-    t = threading.Thread(target=pollLoop, daemon=True)
-    t.start()
-    # start web server (blocking)
-    runWebServer()
+
+    port = int(os.environ.get("PORT", 8080))
+
+    # ⚠️ DO NOT start polling here
+    app.run(host="0.0.0.0", port=port)
+
 
 if __name__ == "__main__":
     main()
