@@ -18,6 +18,8 @@ from alert_manager import pushAlert, topAlerts
 from webapp import app
 import logging
 import os
+import sys
+print("Python version:", sys.version)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -87,8 +89,9 @@ def main():
 
     port = int(os.environ.get("PORT", 8080))
 
-    # ⚠️ DO NOT start polling here
-    app.run(host="0.0.0.0", port=port)
+    print(f"Starting server on port {port}...")  # 👈 important for logs
+
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
 
 
 if __name__ == "__main__":
