@@ -9,10 +9,7 @@ Usage:
 """
 
 import time
-import threading
 from typing import Dict, Tuple
-from snmp_client import get_interfaces_bytes
-from metrics import computeBandwidth
 from database import initDb
 from alert_manager import pushAlert, topAlerts
 from webapp import app
