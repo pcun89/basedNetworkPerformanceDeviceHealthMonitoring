@@ -7,10 +7,12 @@ Data structures:
 - JSON serialization (O(n))
 """
 
+from database import initDb
 from flask import Flask, jsonify
 import os
 
 app = Flask(__name__)
+initDb()
 
 
 @app.route("/")

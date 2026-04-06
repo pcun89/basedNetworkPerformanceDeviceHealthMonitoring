@@ -16,6 +16,9 @@ from webapp import app
 import logging
 import os
 import sys
+
+
+print("FILES IN CONTAINER:", os.listdir())
 print("Python version:", sys.version)
 
 logging.basicConfig(level=logging.INFO)
