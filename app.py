@@ -27,7 +27,6 @@ def health():
 
 @app.route("/api/alerts")
 def alerts():
-    # ✅ lazy import (prevents startup crash)
     from database import recentAlerts
 
     rows = recentAlerts(20)
@@ -49,6 +48,32 @@ def metrics(host):
             for r in rows
         ]
     })
+
+
+# ✅ ADD THIS BLOCK RIGHT HERE
+@app.route("/seed")
+def seed():
+    import random
+    import time
+    from database import addMetrics, addAlert
+
+    host = "192.168.1.1"
+    ts = int(time.time())
+
+    # insert fake metrics
+    for i in range(20):
+        addMetrics(
+            host,
+            ts + i,
+            1,
+            random.randint(1000, 10000),
+            random.randint(1000, 10000)
+        )
+
+    # insert fake alert
+    addAlert(999, 8, ts, "Test high bandwidth alert")
+
+    return {"status": "seeded data"}
 
 
 if __name__ == "__main__":
