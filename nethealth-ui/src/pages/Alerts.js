@@ -1,30 +1,23 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const Alerts = ({ alerts }) => {
+const API = "https://nethealth-249578941686.us-central1.run.app";
+
+export default function Alerts() {
+    const [alerts, setAlerts] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${API}/api/alerts`)
+            .then(res => setAlerts(res.data))
+            .catch(err => console.error(err));
+    }, []);
+
     return (
         <div>
-            <h2>🚨 Alerts</h2>
-
-            {alerts.length === 0 && <p>No alerts</p>}
-
-            {alerts.map((a) => (
-                <div
-                    key={a.id}
-                    style={{
-                        border: "1px solid red",
-                        padding: "10px",
-                        marginBottom: "10px",
-                        borderRadius: "8px",
-                        background: "#ffe5e5",
-                    }}
-                >
-                    <strong>Severity:</strong> {a.severity}
-                    <br />
-                    {a.message}
-                </div>
+            <h1>🚨 Alerts Page</h1>
+            {alerts.map(a => (
+                <div key={a.id}>{a.message}</div>
             ))}
         </div>
     );
-};
-
-export default Alerts;
+}
