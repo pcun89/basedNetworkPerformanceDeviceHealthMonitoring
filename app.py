@@ -10,10 +10,28 @@ Data structures:
 from database import initDb
 from flask import Flask, jsonify
 import os
+from database import addMetrics, addAlert
+import time
+import random
+
 
 app = Flask(__name__)
 initDb()
 
+
+def seedData():
+    for i in range(20):
+        ts = int(time.time()) - i * 10
+
+        addMetrics("192.168.1.1", ts, 1,
+                   random.randint(1000, 5000),
+                   random.randint(1000, 5000))
+
+        if i % 5 == 0:
+            addAlert(i, 5, ts, f"Test alert {i}")
+
+
+seedData()
 
 @app.route("/")
 def home():
